@@ -1,0 +1,57 @@
+<!DOCTYPE html> 
+<html> 
+<head> 
+    <title>Main content page</title> 
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script> 
+    <script type="text/javascript"> 
+     $(function() { 
+     // Assign handler to message event 
+     if (window.addEventListener) { 
+      window.addEventListener('message', messageHandler, false); 
+     } else if (window.attachEvent) { // ie8 
+      window.attachEvent('onmessage', messageHandler); 
+     } 
+
+     $("#btnGetIframeCookie").click(function() { 
+      var postMsg = { 
+       action:"getCookie" 
+      } 
+      // get reference to window inside the iframe 
+      var wn = document.getElementById('cookieiframe').contentWindow; 
+      // postMessage arguments: data to send, target origin 
+      wn.postMessage(JSON.stringify(postMsg), 'http://siteC'); 
+     }) 
+     $("#btnSetIframeCookie").click(function() { 
+      var cookieVal = $("#txtCookieValue").val(); 
+      var postMsg = { 
+       action: "setCookie", 
+       payload: cookieVal 
+      } 
+      var wn = document.getElementById('cookieiframe').contentWindow; 
+      // postMessage arguments: data to send, target origin 
+      wn.postMessage(JSON.stringify(postMsg), 'http://siteC'); 
+     }) 
+     }) 
+
+     function messageHandler(e) { 
+     if (e.origin === 'http://siteC') { 
+      $("#divMessages").append("response from iframe: <br/>" + e.data + "<br/>"); 
+     } 
+     } 
+    </script> 
+</head> 
+<body> 
+    <div> 
+     This is the iframe container 
+    </div> 
+    <div> 
+     <input type="button" id="btnGetIframeCookie" value="Get iframe cookie" /> 
+    </div> 
+    <div> 
+     <input type="text" size="60" id="txtCookieValue" /> 
+     <input type="button" id="btnSetIframeCookie" value="Set iframe cookie" /> 
+    </div> 
+    <iframe id="cookieiframe" src="http://siteC/iframe/index.html" style="width: 300px; height: 300px; border:1px solid black;"></iframe> 
+    <div id="divMessages"></div> 
+</body> 
+</html> 

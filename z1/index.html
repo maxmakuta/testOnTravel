@@ -1,0 +1,40 @@
+<!-- 1. Предположим, есть страница, на которой всего одно поле:
+
+<style>.red {color: red;}</style>
+<input type="text" name="name" class="js_name" value="Xxxx">
+
+Задача: написать скрипт, который при вводе данных в поле будет добавлять ему класс red, если его текущее значение поля не совпадает с изначальным, и удалять этот класс, если значения совпадают -->
+
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta charset= "utf-8">
+		<title>TEST</title> 			
+		<link rel="stylesheet" type="text/css" href="mein.css">
+
+	</head>
+
+	<body>
+		<div class="container">
+			<input type="text" name="name" class="js_name" value="Xxxx">
+		</div> 
+	
+<script>
+  	addEventListener("DOMContentLoaded", () => {
+		const text = document.querySelector(".js_name");
+		const value = "Xxxx";
+		text.addEventListener ("input", () => { 			 
+			if (text.value !== value)
+				text.className = "red";				
+			else if (text.value === value)
+				text.className = "";
+			else  
+				console.log("");
+		});
+});
+</script>
+		
+	
+	</body>
+	
+</html>
